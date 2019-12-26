@@ -14,7 +14,7 @@ def neighbors(g, x, y):
     return s
 
 
-def next_gen(g1):
+def next_generation(g1):
     g2 = []
     for x in range(len(g1)):
         g2.insert(x, [])
@@ -27,3 +27,9 @@ def next_gen(g1):
             else:
                 g2[x].append(g1[x][y])
     return g2
+
+
+def generations(g):
+    while True:
+        yield g
+        g = next_generation(g)
