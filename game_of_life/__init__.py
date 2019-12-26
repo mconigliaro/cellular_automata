@@ -1,8 +1,8 @@
 from random import randint
 
 
-def grid(height, width, value=randint(0, 1)):
-    return [[value for x in range(width)] for y in range(height)]
+def grid(height, width):
+    return [[randint(0, 1) for x in range(width)] for y in range(height)]
 
 
 def neighbors(g, x, y):
