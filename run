@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+from game_of_life.visualizations.curses import run
+
+run(delay=0.1)
