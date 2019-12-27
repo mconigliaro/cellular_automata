@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 import argparse
+from random import seed
 
 
 parser = argparse.ArgumentParser(description="Conway's Game of Life demo")
+parser.add_argument('--random-seed', type=int, help='random seed')
 parser.add_argument('--grid-height', type=int, help='grid height')
 parser.add_argument('--grid-width', type=int, help='grid width')
 parser.add_argument('--delay', type=float, default=0.05,
@@ -12,6 +14,8 @@ parser.add_argument('--visualization', choices=['curses'],
                     default='curses', help='visualization type')
 
 args = parser.parse_args()
+
+seed(args.random_seed)
 
 if args.visualization == 'curses':
     from game_of_life.visualizations import curses
