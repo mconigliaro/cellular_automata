@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+
+import argparse
+
+
+parser = argparse.ArgumentParser(description="Conway's Game of Life demo")
+parser.add_argument('--grid-height', type=int, help='grid height')
+parser.add_argument('--grid-width', type=int, help='grid width')
+parser.add_argument('--delay', type=float, default=0.05,
+                    help='refresh delay in seconds')
+parser.add_argument('--visualization', choices=['curses'],
+                    default='curses', help='visualization type')
+
+args = parser.parse_args()
+
+if args.visualization == 'curses':
+    from game_of_life.visualizations import curses
+
+    curses.run(
+        height=args.grid_height,
+        width=args.grid_width,
+        delay=args.delay
+    )

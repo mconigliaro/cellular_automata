@@ -3,6 +3,10 @@ from game_of_life import grid, generations
 from time import sleep
 
 
+def run(height=None, width=None, delay=0):
+    curses.wrapper(main, height=height, width=width, delay=delay)
+
+
 def main(stdscr, height, width, delay):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -34,7 +38,3 @@ def main(stdscr, height, width, delay):
         curses.curs_set(0)
         stdscr.refresh()
         sleep(delay)
-
-
-def run(height=None, width=None, delay=0):
-    curses.wrapper(main, height=height, width=width, delay=delay)

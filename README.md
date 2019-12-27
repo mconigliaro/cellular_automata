@@ -12,3 +12,7 @@
 ## Run Tests
 
     pytest
+
+## Run Demo
+
+    game_of_life
