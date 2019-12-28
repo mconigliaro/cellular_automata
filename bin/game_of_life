@@ -5,7 +5,7 @@ from random import seed
 
 
 parser = argparse.ArgumentParser(description="Conway's Game of Life demo")
-parser.add_argument('--random-seed', type=int, help='random seed')
+parser.add_argument('--random-seed', help='random seed')
 parser.add_argument('--grid-height', type=int, help='grid height')
 parser.add_argument('--grid-width', type=int, help='grid width')
 parser.add_argument('--delay', type=float, default=0.05,
