@@ -4,7 +4,10 @@ from time import sleep
 
 
 def run(height=None, width=None, delay=0):
-    curses.wrapper(main, height=height, width=width, delay=delay)
+    try:
+        curses.wrapper(main, height=height, width=width, delay=delay)
+    except KeyboardInterrupt:
+        pass
 
 
 def main(stdscr, height, width, delay):
