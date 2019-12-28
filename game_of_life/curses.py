@@ -1,25 +1,64 @@
+from collections.abc import Iterable
 import curses
 from game_of_life import generations
+from random import choice
 from signal import signal, SIGWINCH
 from time import sleep
 
 
-def run(population, delay):
+THEMES = {
+    'atari': {
+        'fg_color': curses.COLOR_WHITE,
+        'bg_color': curses.COLOR_BLACK,
+        'live_cell': '█',
+        'dead_cell': ' '
+    },
+    'binary': {
+        'fg_color': curses.COLOR_WHITE,
+        'bg_color': curses.COLOR_BLACK,
+        'live_cell': '1',
+        'dead_cell': '0'
+    },
+    'default': {
+        'fg_color': curses.COLOR_GREEN,
+        'bg_color': curses.COLOR_BLACK,
+        'live_cell': '❚',
+        'dead_cell': ' '
+    },
+    'msdos': {
+        'fg_color': curses.COLOR_WHITE,
+        'bg_color': curses.COLOR_BLUE,
+        'live_cell': '❚',
+        'dead_cell': ' '
+    },
+    'matrix': {
+        'fg_color': curses.COLOR_GREEN,
+        'bg_color': curses.COLOR_BLACK,
+        'live_cell': tuple(chr(x) for x in range(33, 127)),
+        'dead_cell': ' '
+    }
+}
+
+
+def run(population, delay, theme):
     signal(SIGWINCH, _resize_handler)
     while True:
         try:
-            curses.wrapper(_main, population=population, delay=delay)
+            curses.wrapper(_main,
+                           population=population,
+                           delay=delay,
+                           theme=theme)
         except WindowResizeException:
             continue
         except KeyboardInterrupt:
             break
 
 
-def _main(stdscr, population, delay):
+def _main(stdscr, population, delay, theme):
     stdscr.clear()
 
     curses.start_color()
-    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(1, THEMES[theme]['fg_color'], THEMES[theme]['bg_color'])
     curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
     curses.curs_set(0)
 
@@ -27,11 +66,14 @@ def _main(stdscr, population, delay):
     height = max_height - 1
     width = max_width - 1
     cells = height * width
+    cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
 
     for i, gen in enumerate(generations(height, width, population)):
         for x in range(height):
             for y in range(width):
-                char = '❚' if gen.grid[x][y] == 1 else ' '
+                char = cell_chars[gen.grid[x][y]]
+                if isinstance(char, Iterable):
+                    char = choice(char)
                 stdscr.addch(x, y, char, curses.color_pair(1))
 
         population = gen.born + gen.survived

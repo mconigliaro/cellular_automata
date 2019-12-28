@@ -1,7 +1,7 @@
 # game_of_life
 
 [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
-demo for your terminal
+with fun themes for your terminal
 
 ![](https://gitlab.com/mconigliaro/game_of_life/raw/master/screenshots/1.png)
 
