@@ -4,26 +4,18 @@ from signal import signal, SIGWINCH
 from time import sleep
 
 
-class WindowResizeException(Exception):
-    pass
-
-
-def resize_handler(signum, frame):
-    raise WindowResizeException()
-
-
 def run(height=None, width=None, delay=0):
-    signal(SIGWINCH, resize_handler)
+    signal(SIGWINCH, _resize_handler)
     while True:
         try:
-            curses.wrapper(main, height=height, width=width, delay=delay)
+            curses.wrapper(_main, height=height, width=width, delay=delay)
         except WindowResizeException:
             continue
         except KeyboardInterrupt:
             break
 
 
-def main(stdscr, height, width, delay):
+def _main(stdscr, height, width, delay):
     stdscr.clear()
 
     curses.start_color()
@@ -57,3 +49,11 @@ def main(stdscr, height, width, delay):
 
         stdscr.refresh()
         sleep(delay)
+
+
+class WindowResizeException(Exception):
+    pass
+
+
+def _resize_handler(signum, frame):
+    raise WindowResizeException()
