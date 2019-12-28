@@ -1,5 +1,5 @@
 import curses
-from game_of_life import generations
+from game_of_life import first_generation, generations
 from time import sleep
 
 
@@ -21,7 +21,7 @@ def main(stdscr, height, width, delay):
         width = curses.COLS - 1
     cells = height * width
 
-    for i, gen in enumerate(generations(height, width)):
+    for i, gen in enumerate(generations(first_generation(height, width))):
         for x in range(height):
             for y in range(width):
                 if gen.grid[x][y] == 1:

@@ -1,4 +1,4 @@
-from game_of_life import Generation, generations
+from game_of_life import Generation, first_generation, generations
 import pytest
 from random import randint
 
@@ -15,10 +15,10 @@ def width():
 
 @pytest.fixture
 def gen(height, width):
-    return next(generations(height, width))
+    return next(generations(first_generation(height, width)))
 
 
-def test_generation(height, width, gen):
+def test_generations(height, width, gen):
     assert isinstance(gen, Generation)
     assert len(gen.grid) == height
     for x in gen.grid:

@@ -6,11 +6,12 @@ Generation = namedtuple('Generation', ['grid', 'born', 'died_under',
                         'died_over', 'survived'], defaults=[0, 0, 0, 0])
 
 
-def generations(height, width):
-    gen = Generation(
-        grid=tuple(tuple(randint(0, 1) for x in range(width))
-                   for y in range(height))
-    )
+def first_generation(height, width):
+    return Generation(grid=tuple(tuple(randint(0, 1) for x in range(width))
+                      for y in range(height)))
+
+
+def generations(gen):
     while True:
         yield gen
         gen = next_generation(gen)
