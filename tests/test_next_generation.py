@@ -1,9 +1,9 @@
-from game_of_life import next_generation
+from game_of_life import Generation, next_generation
 import pytest
 
 
 @pytest.fixture
-def generations():
+def grids():
     return [
         ([
             [0, 0, 0],
@@ -37,6 +37,6 @@ def generations():
     ]
 
 
-def test_next_generation(generations):
-    for g1, g2 in generations:
-        assert next_generation(g1) == g2
+def test_next_generation(grids):
+    for grid1, grid2 in grids:
+        assert next_generation(Generation(grid=grid1)).grid == grid2
