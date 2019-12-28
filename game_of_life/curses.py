@@ -4,18 +4,18 @@ from signal import signal, SIGWINCH
 from time import sleep
 
 
-def run(delay=0):
+def run(population, delay):
     signal(SIGWINCH, _resize_handler)
     while True:
         try:
-            curses.wrapper(_main, delay=delay)
+            curses.wrapper(_main, population=population, delay=delay)
         except WindowResizeException:
             continue
         except KeyboardInterrupt:
             break
 
 
-def _main(stdscr, delay):
+def _main(stdscr, population, delay):
     stdscr.clear()
 
     curses.start_color()
@@ -28,7 +28,7 @@ def _main(stdscr, delay):
     width = max_width - 1
     cells = height * width
 
-    for i, gen in enumerate(generations(height, width)):
+    for i, gen in enumerate(generations(height, width, population)):
         for x in range(height):
             for y in range(width):
                 char = '❚' if gen.grid[x][y] == 1 else ' '

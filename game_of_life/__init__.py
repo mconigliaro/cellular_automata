@@ -1,15 +1,21 @@
 from collections import namedtuple
-from random import randint
+from random import randrange
 
 
 Generation = namedtuple('Generation', ['grid', 'born', 'died_under',
                         'died_over', 'survived'], defaults=[0, 0, 0, 0])
 
 
-def generations(height, width):
-    grid = tuple(tuple(randint(0, 1) for x in range(width))
-                 for y in range(height))
-    born = sum(sum(col) for col in grid)
+def generations(height, width, population):
+    grid = [[0 for x in range(width)] for y in range(height)]
+    born = 0
+    desired = int(height * width * (population / 100))
+    while born < desired:
+        x = randrange(height)
+        y = randrange(width)
+        if grid[x][y] == 0:
+            grid[x][y] = 1
+            born += 1
     gen = Generation(grid=grid, born=born)
     while True:
         yield gen

@@ -5,17 +5,17 @@ from random import randint
 
 @pytest.fixture
 def height():
-    return randint(1, 100)
+    return randint(3, 15)
 
 
 @pytest.fixture
 def width():
-    return randint(1, 100)
+    return randint(3, 15)
 
 
 @pytest.fixture
 def gen(height, width):
-    return next(generations(height, width))
+    return next(generations(height, width, 10))
 
 
 def test_generations(height, width, gen):
