@@ -1,4 +1,4 @@
-from game_of_life import Generation, first_generation, generations
+from game_of_life import Generation, generations
 import pytest
 from random import randint
 
@@ -15,7 +15,7 @@ def width():
 
 @pytest.fixture
 def gen(height, width):
-    return next(generations(first_generation(height, width)))
+    return next(generations(height, width))
 
 
 def test_generations(height, width, gen):
