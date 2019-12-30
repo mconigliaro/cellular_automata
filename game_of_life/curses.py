@@ -1,6 +1,7 @@
 from collections.abc import Iterable
 import curses
 from game_of_life import generations
+from itertools import product
 from random import choice
 from signal import signal, SIGWINCH
 from time import sleep
@@ -69,12 +70,11 @@ def _main(stdscr, population, delay, theme):
     cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
 
     for i, gen in enumerate(generations(height, width, population)):
-        for x in range(height):
-            for y in range(width):
-                char = cell_chars[gen.grid[x][y]]
-                if isinstance(char, Iterable):
-                    char = choice(char)
-                stdscr.addch(x, y, char, curses.color_pair(1))
+        for x, y in product(range(height), range(width)):
+            char = cell_chars[gen.grid[x][y]]
+            if isinstance(char, Iterable):
+                char = choice(char)
+            stdscr.addch(x, y, char, curses.color_pair(1))
 
         population = gen.born + gen.survived
         pop_pct = f'{population / cells * 100 :.1f}'

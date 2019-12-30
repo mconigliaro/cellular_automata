@@ -1,34 +1,35 @@
 from collections import namedtuple
-from random import randrange
+from itertools import product
+from random import sample
 
 
 Generation = namedtuple('Generation', ['grid', 'born', 'died_under',
                         'died_over', 'survived'], defaults=[0, 0, 0, 0])
 
 
-def generations(height, width, population):
+def first_generation(height, width, population):
     grid = [[0 for x in range(width)] for y in range(height)]
-    born = 0
-    desired = int(height * width * (population / 100))
-    while born < desired:
-        x = randrange(height)
-        y = randrange(width)
-        if grid[x][y] == 0:
-            grid[x][y] = 1
-            born += 1
-    gen = Generation(grid=grid, born=born)
+    born = int(height * width * (population / 100))
+    for x, y in sample(tuple(product(range(height), range(width))), born):
+        grid[x][y] = 1
+    return Generation(grid=grid, born=born)
+
+
+def generations(height, width, population):
+    gen = first_generation(height, width, population)
     while True:
         yield gen
         gen = next_generation(gen)
 
 
 def neighbors(grid, x, y):
-    s = 0
-    for i in range(max(0, x - 1), min(len(grid), x + 2)):
-        for j in range(max(0, y - 1), min(len(grid[0]), y + 2)):
-            if (i, j) != (x, y):
-                s += grid[i][j]
-    return s
+    n = 0
+    x_range = range(max(0, x - 1), min(len(grid), x + 2))
+    y_range = range(max(0, y - 1), min(len(grid[0]), y + 2))
+    for i, j in product(x_range, y_range):
+        if (i, j) != (x, y):
+            n += grid[i][j]
+    return n
 
 
 def next_generation(gen1):
@@ -41,18 +42,19 @@ def next_generation(gen1):
         gen2.insert(x, [])
         for y in range(len(gen1.grid[0])):
             n = neighbors(gen1.grid, x, y)
-            if gen1.grid[x][y] == 0 and n == 3:
+            cell = gen1.grid[x][y]
+            if cell == 0 and n == 3:
                 gen2[x].append(1)
                 born += 1
-            elif gen1.grid[x][y] == 1 and n < 2:
+            elif cell == 1 and n < 2:
                 gen2[x].append(0)
                 died_under += 1
-            elif gen1.grid[x][y] == 1 and n > 3:
+            elif cell == 1 and n > 3:
                 gen2[x].append(0)
                 died_over += 1
             else:
-                gen2[x].append(gen1.grid[x][y])
-                survived += gen1.grid[x][y]
+                gen2[x].append(cell)
+                survived += cell
 
     return Generation(
         grid=gen2,
