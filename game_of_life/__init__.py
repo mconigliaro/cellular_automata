@@ -44,8 +44,8 @@ def _next_generation(gen1, rules):
     for x in range(len(gen1.grid)):
         gen2.insert(x, [])
         for y in range(len(gen1.grid[0])):
-            n = _neighbors(gen1.grid, x, y)
             cell = gen1.grid[x][y]
+            n = _neighbors(gen1.grid, x, y)
             if cell == DEAD_CELL:
                 if n in rules.birth:
                     gen2[x].append(LIVE_CELL)
@@ -60,12 +60,7 @@ def _next_generation(gen1, rules):
                     gen2[x].append(DEAD_CELL)
                     died += 1
 
-    return Generation(
-        grid=gen2,
-        born=born,
-        died=died,
-        survived=survived
-    )
+    return Generation(grid=gen2, born=born, died=died, survived=survived)
 
 
 def _parse_rulestring(rulestring):

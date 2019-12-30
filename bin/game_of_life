@@ -5,16 +5,16 @@ from game_of_life import curses
 from random import seed
 
 
-parser = argparse.ArgumentParser(description="Conway's Game of Life demo")
-parser.add_argument('--seed', help='random seed')
+parser = argparse.ArgumentParser(description="Conway's Game of Life")
+parser.add_argument('--seed', help='Random seed')
 parser.add_argument('--population', type=float, default=33.33,
-                    help='initial population as a percentage of the grid')
+                    help='Initial population as a percentage of the grid')
 parser.add_argument('--rulestring', default='b3/s23',
-                    help='rulestring in B/S notation')
+                    help='Rulestring in B/S notation')
 parser.add_argument('--delay', type=float, default=0.05,
-                    help='refresh delay in seconds')
+                    help='Refresh delay in seconds')
 parser.add_argument('--theme', choices=curses.THEMES.keys(), default='default',
-                    help='color theme')
+                    help='Color theme')
 args = parser.parse_args()
 
 seed(args.seed)
