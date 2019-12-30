@@ -70,10 +70,11 @@ def _next_generation(gen1, rules):
 
 def _parse_rulestring(rulestring):
     match = re.match(r'b(\d*)\/s(\d*)', rulestring, re.IGNORECASE)
-    if match is None:
-        birth = tuple()
-        survival = tuple()
-    else:
+    if match:
         birth = tuple(int(x) for x in match[1])
         survival = tuple(int(x) for x in match[2])
+    else:
+        birth = tuple()
+        survival = tuple()
+
     return Rules(birth=birth, survival=survival)
