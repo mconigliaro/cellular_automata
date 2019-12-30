@@ -15,7 +15,7 @@ def width():
 
 @pytest.fixture
 def gen(height, width):
-    return next(generations(height, width, 10))
+    return next(generations(height, width, 10, 'b3/s23'))
 
 
 def test_generations(height, width, gen):

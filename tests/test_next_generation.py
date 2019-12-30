@@ -1,4 +1,4 @@
-from game_of_life import Generation, next_generation
+from game_of_life import Generation, _next_generation, _parse_rulestring
 import pytest
 
 
@@ -39,4 +39,6 @@ def grids():
 
 def test_next_generation(grids):
     for grid1, grid2 in grids:
-        assert next_generation(Generation(grid=grid1)).grid == grid2
+        g = Generation(grid=grid1)
+        rules = _parse_rulestring('b3/s23')
+        assert _next_generation(g, rules).grid == grid2

@@ -41,12 +41,13 @@ THEMES = {
 }
 
 
-def run(population, delay, theme):
+def run(population, rulestring, delay, theme):
     signal(SIGWINCH, _resize_handler)
     while True:
         try:
             curses.wrapper(_main,
                            population=population,
+                           rulestring=rulestring,
                            delay=delay,
                            theme=theme)
         except WindowResizeException:
@@ -55,7 +56,7 @@ def run(population, delay, theme):
             break
 
 
-def _main(stdscr, population, delay, theme):
+def _main(stdscr, population, rulestring, delay, theme):
     stdscr.clear()
 
     curses.start_color()
@@ -69,7 +70,8 @@ def _main(stdscr, population, delay, theme):
     cells = height * width
     cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
 
-    for i, gen in enumerate(generations(height, width, population)):
+    gs = generations(height, width, population, rulestring)
+    for i, gen in enumerate(gs):
         for x, y in product(range(height), range(width)):
             char = cell_chars[gen.grid[x][y]]
             if isinstance(char, Iterable):
@@ -80,6 +82,7 @@ def _main(stdscr, population, delay, theme):
         pop_pct = f'{population / cells * 100 :.1f}'
 
         status_bar = f'Ctrl+C to quit | '
+        status_bar += f'Rulestring: {rulestring} | '
         status_bar += f'Generation: {i} | '
         status_bar += f'Population: {population}/{cells} ({pop_pct}%) | '
         status_bar += f'Delay: {delay}s'
