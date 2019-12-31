@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import argparse
-from game_of_life import curses
+from cellular_automata import curses
 from random import seed
 
 
-parser = argparse.ArgumentParser(description="Conway's Game of Life")
+parser = argparse.ArgumentParser(
+    description="Simple cellular automata implementation")
 parser.add_argument('--seed', help='Random seed')
 parser.add_argument('--population', type=float, default=33.33,
                     help='Initial population as a percentage of the grid')

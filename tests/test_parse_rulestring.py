@@ -1,4 +1,4 @@
-from game_of_life import _parse_rulestring, Rules
+from cellular_automata import _parse_rulestring, Rules
 
 
 def test_parse_rulestring():

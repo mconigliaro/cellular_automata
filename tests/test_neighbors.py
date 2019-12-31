@@ -1,4 +1,4 @@
-from game_of_life import _neighbors
+from cellular_automata import _neighbors
 import pytest
 
 

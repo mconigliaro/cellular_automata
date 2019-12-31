@@ -1,4 +1,4 @@
-from game_of_life import Generation, generations
+from cellular_automata import Generation, generations
 import pytest
 from random import randint
 

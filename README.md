@@ -1,9 +1,9 @@
-# game_of_life
+# cellular_automata
 
-[Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
-with fun themes for your terminal
+Simple [cellular automata](https://www.conwaylife.com/wiki/Cellular_automaton)
+implementation with fun visualizations for your terminal
 
-![](https://gitlab.com/mconigliaro/game_of_life/raw/master/screenshots/1.png)
+![](https://gitlab.com/mconigliaro/cellular_automata/raw/master/screenshots/1.png)
 
 ## Getting Started
 
@@ -16,9 +16,9 @@ with fun themes for your terminal
 
     pytest
 
-## Run Demo
+## Run Simulation
 
 The game grid is determined by the size of the terminal window. Resizing the
 window will cause the game to be restarted.
 
-    game_of_life [--help]
+    ca [--help]

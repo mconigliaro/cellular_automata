@@ -1,6 +1,6 @@
 from collections.abc import Iterable
 import curses
-from game_of_life import generations
+from cellular_automata import generations
 from itertools import product
 from random import choice
 from signal import signal, SIGWINCH

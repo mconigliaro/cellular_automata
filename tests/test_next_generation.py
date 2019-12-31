@@ -1,4 +1,4 @@
-from game_of_life import Generation, _next_generation, _parse_rulestring
+from cellular_automata import Generation, _next_generation, _parse_rulestring
 import pytest
 
 
