@@ -8,7 +8,7 @@ from random import seed
 parser = argparse.ArgumentParser(
     description="Simple cellular automata implementation")
 parser.add_argument('--seed', help='Random seed')
-parser.add_argument('--population', type=float, default=33.33,
+parser.add_argument('--population', type=float, default=100/3,
                     help='Initial population as a percentage of the grid')
 parser.add_argument('--rulestring', default='b3/s23',
                     help='Rulestring in B/S notation')

@@ -78,14 +78,15 @@ def _main(stdscr, population, rulestring, delay, theme):
                 char = choice(char)
             stdscr.addch(x, y, char, curses.color_pair(1))
 
+        gen_per_sec = f'{1 / gen.time :.1f}'
         population = gen.born + gen.survived
         pop_pct = f'{population / cells * 100 :.1f}'
 
         status_bar = f'Ctrl+C to quit | '
-        status_bar += f'Rulestring: {rulestring} | '
-        status_bar += f'Generation: {i} | '
-        status_bar += f'Population: {population}/{cells} ({pop_pct}%) | '
-        status_bar += f'Delay: {delay}s'
+        status_bar += f'RS: {rulestring} | '
+        status_bar += f'Gen: {i} ({gen_per_sec}/s) | '
+        status_bar += f'Pop: {population}/{cells} ({pop_pct}%) | '
+        status_bar += f'Del: {delay}s'
         status_bar = status_bar.ljust(width, ' ')[:width]
         stdscr.addstr(height, 0, status_bar, curses.color_pair(2))
 
