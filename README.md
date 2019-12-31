@@ -8,7 +8,7 @@ with fun themes for your terminal
 ## Getting Started
 
     pip install pipenv
-    pipenv install
+    pipenv install --dev
     pipenv shell
     ...
 
