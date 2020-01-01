@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 import curses
 from cellular_automata import generations
-from itertools import product
+from numpy import ndenumerate
 from random import choice
 from signal import signal, SIGWINCH
 from time import sleep
@@ -70,16 +70,15 @@ def _main(stdscr, population, rulestring, delay, theme):
     cells = height * width
     cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
 
-    gs = generations(height, width, population, rulestring)
-    for i, gen in enumerate(gs):
-        for x, y in product(range(height), range(width)):
-            char = cell_chars[gen.grid[x][y]]
+    for i, g in enumerate(generations(height, width, population, rulestring)):
+        for (x, y), cell in ndenumerate(g.grid):
+            char = cell_chars[cell]
             if isinstance(char, Iterable):
                 char = choice(char)
             stdscr.addch(x, y, char, curses.color_pair(1))
 
-        gen_per_sec = f'{1 / gen.time :.1f}'
-        population = gen.born + gen.survived
+        gen_per_sec = f'{1 / g.time :.1f}'
+        population = g.born + g.survived
         pop_pct = f'{population / cells * 100 :.1f}'
 
         status_bar = f'Ctrl+C to quit | '

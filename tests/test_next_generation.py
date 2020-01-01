@@ -1,4 +1,5 @@
-from cellular_automata import Generation, _next_generation, _parse_rulestring
+from cellular_automata import _next_generation, _parse_rulestring
+from numpy import array
 import pytest
 
 
@@ -39,6 +40,5 @@ def grids():
 
 def test_next_generation(grids):
     for grid1, grid2 in grids:
-        g = Generation(grid=grid1)
         rules = _parse_rulestring('b3/s23')
-        assert _next_generation(g, rules).grid == grid2
+        assert _next_generation(array(grid1), rules).grid.tolist() == grid2
