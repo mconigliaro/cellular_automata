@@ -1,9 +1,9 @@
-from cellular_automata import _next_generation, _parse_rulestring
-from numpy import array
-import pytest
+import cellular_automata as ca
+import numpy as np
+import pytest as pt
 
 
-@pytest.fixture
+@pt.fixture
 def grids():
     return [
         ([
@@ -40,5 +40,6 @@ def grids():
 
 def test_next_generation(grids):
     for grid1, grid2 in grids:
-        rules = _parse_rulestring('b3/s23')
-        assert _next_generation(array(grid1), rules).grid.tolist() == grid2
+        rules = ca._parse_rulestring('b3/s23')
+        grid1 = np.array(grid1)
+        assert ca._next_generation(grid1, rules).grid.tolist() == grid2

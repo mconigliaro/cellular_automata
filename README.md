@@ -18,7 +18,4 @@ implementation with fun visualizations for your terminal
 
 ## Run Simulation
 
-The game grid is determined by the size of the terminal window. Resizing the
-window will cause the game to be restarted.
-
     ca [--help]

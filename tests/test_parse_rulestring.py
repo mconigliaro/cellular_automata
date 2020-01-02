@@ -1,8 +1,10 @@
-from cellular_automata import _parse_rulestring, Rules
+import cellular_automata as ca
 
 
 def test_parse_rulestring():
-    assert _parse_rulestring('b0/s12') == Rules(birth=(0,), survival=(1, 2))
-    assert _parse_rulestring('b/s01') == Rules(birth=(), survival=(0, 1))
-    assert _parse_rulestring('b/s') == Rules(birth=(), survival=())
-    assert _parse_rulestring('') == Rules(birth=(), survival=())
+    assert ca._parse_rulestring('b01/s23') == ca.Rules(birth=(0, 1),
+                                                       survival=(2, 3))
+    assert ca._parse_rulestring('b01/s') == ca.Rules(birth=(0, 1))
+    assert ca._parse_rulestring('b/s01') == ca.Rules(survival=(0, 1))
+    assert ca._parse_rulestring('b/s') == ca.Rules()
+    assert ca._parse_rulestring('') == ca.Rules()

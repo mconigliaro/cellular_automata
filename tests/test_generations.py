@@ -1,25 +1,25 @@
-from cellular_automata import Generation, generations
-import pytest
-from random import randint
+import cellular_automata as ca
+import pytest as pt
+import random as rn
 
 
-@pytest.fixture
+@pt.fixture
 def height():
-    return randint(3, 15)
+    return rn.randint(3, 15)
 
 
-@pytest.fixture
+@pt.fixture
 def width():
-    return randint(3, 15)
+    return rn.randint(3, 15)
 
 
-@pytest.fixture
+@pt.fixture
 def gen(height, width):
-    return next(generations(height, width, 10, 'b3/s23'))
+    return next(ca.generations(height, width, 10, 'b3/s23'))
 
 
 def test_generations(height, width, gen):
-    assert isinstance(gen, Generation)
+    assert isinstance(gen, ca.Generation)
     assert len(gen.grid) == height
     for x in gen.grid:
         assert len(x) == width

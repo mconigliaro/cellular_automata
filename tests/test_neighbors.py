@@ -1,8 +1,8 @@
-from cellular_automata import _neighbors
-import pytest
+import cellular_automata as ca
+import pytest as pt
 
 
-@pytest.fixture
+@pt.fixture
 def grid():
     return [
         [0, 1, 2, 3],
@@ -13,7 +13,7 @@ def grid():
 
 
 def test_neighbors(grid):
-    neighbors = _neighbors(grid)
+    neighbors = ca._neighbors(grid)
     assert neighbors[0][0] == 1 + 4 + 5
     assert neighbors[0][3] == 2 + 6 + 7
     assert neighbors[1][1] == (0 + 1 + 2) + (4 + 6) + (8 + 9 + 10)

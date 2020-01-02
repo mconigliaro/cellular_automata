@@ -1,20 +1,21 @@
-from collections import namedtuple
-from itertools import product
-from random import sample
+import collections as col
+import itertools as it
+import numpy as np
+import random as rn
 import re
-from numpy import array, full, ndenumerate
-from scipy.signal import fftconvolve
-import time
+import scipy.signal as sp
+import time as t
 
 
+CELL_TYPE = int
 DEAD_CELL = 0
 LIVE_CELL = 1
 
-Generation = namedtuple('Generation',
-                        ['grid', 'born', 'died', 'survived', 'time'],
-                        defaults=[0, 0, 0, 0])
+Generation = col.namedtuple('Generation',
+                            ['grid', 'population', 'time'],
+                            defaults=[0, 0])
 
-Rules = namedtuple('Rules', ['birth', 'survival'])
+Rules = col.namedtuple('Rules', ['birth', 'survival'], defaults=[(), ()])
 
 
 def generations(height, width, population, rulestring):
@@ -26,39 +27,38 @@ def generations(height, width, population, rulestring):
 
 
 def _first_generation(height, width, population):
-    start_time = time.time()
-    grid = full((height, width), DEAD_CELL, int)
-    born = int(height * width * (population / 100))
-    for x, y in sample(tuple(product(range(height), range(width))), born):
-        grid[x][y] = LIVE_CELL
-    return Generation(grid=grid, born=born, time=time.time()-start_time)
+    start_time = t.time()
+    grid = np.full((height, width), DEAD_CELL, CELL_TYPE)
+    pop = int(height * width * (population / 100))
+    cells = tuple(it.product(range(height), range(width)))
+    for x, y in rn.sample(cells, pop):
+        grid[x, y] = LIVE_CELL
+    return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
 
 def _neighbors(grid):
-    kernel = array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
-    return fftconvolve(grid, kernel, 'same').round()
+    kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
+    return sp.fftconvolve(grid, kernel, 'same').round()
 
 
 def _next_generation(grid, rules):
-    start_time = time.time()
+    start_time = t.time()
     neighbors = _neighbors(grid)
-    next_grid = full(grid.shape, DEAD_CELL, int)
-    born = 0
-    died = 0
-    survived = 0
-    for (x, y), cell in ndenumerate(grid):
-        if cell == DEAD_CELL and neighbors[x][y] in rules.birth:
-            next_grid[x][y] = LIVE_CELL
-            born += 1
-        elif cell == LIVE_CELL:
-            if neighbors[x][y] in rules.survival:
-                next_grid[x][y] = LIVE_CELL
-                survived += 1
-            else:
-                died += 1
+    next_grid = np.full(grid.shape, DEAD_CELL, CELL_TYPE)
+    population = 0
 
-    return Generation(grid=next_grid, born=born, died=died, survived=survived,
-                      time=time.time()-start_time)
+    for n in rules.birth:
+        w = np.where((grid == DEAD_CELL) & (neighbors == n))
+        next_grid[w] = LIVE_CELL
+        population += len(w[0])
+
+    for n in rules.survival:
+        w = np.where((grid == LIVE_CELL) & (neighbors == n))
+        next_grid[w] = LIVE_CELL
+        population += len(w[0])
+
+    return Generation(grid=next_grid, population=population,
+                      time=t.time()-start_time)
 
 
 def _parse_rulestring(rulestring):
@@ -69,5 +69,4 @@ def _parse_rulestring(rulestring):
     else:
         birth = tuple()
         survival = tuple()
-
     return Rules(birth=birth, survival=survival)
