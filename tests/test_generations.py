@@ -1,16 +1,16 @@
 import cellular_automata as ca
 import pytest as pt
-import random as rn
+import random as rand
 
 
 @pt.fixture
 def height():
-    return rn.randint(3, 15)
+    return rand.randint(3, 15)
 
 
 @pt.fixture
 def width():
-    return rn.randint(3, 15)
+    return rand.randint(3, 15)
 
 
 @pt.fixture

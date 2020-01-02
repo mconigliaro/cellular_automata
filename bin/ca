@@ -1,46 +1,41 @@
 #!/usr/bin/env python
 
 import argparse as ap
-import cellular_automata.curses as ca_c
-import cellular_automata.text as ca_t
-import random as rn
+import cellular_automata as ca
+import importlib as il
+import cellular_automata.visualizations.curses as cur
+import random as rand
 
 
 parser = ap.ArgumentParser(
     description="Simple cellular automata implementation")
-parser.add_argument('--seed', help='Random seed')
-parser.add_argument('--height', type=int, help='Grid height')
-parser.add_argument('--width', type=int, help='Grid width')
-parser.add_argument('--population', type=float, default=100/3,
+parser.add_argument('-s', '--seed', help='Random seed')
+parser.add_argument('-x', '--height', type=int, help='Grid height', default=100)
+parser.add_argument('-y', '--width', type=int, help='Grid width', default=100)
+parser.add_argument('-p', '--population', type=float, default=100/3,
                     help='Initial population as a percentage of the grid')
-parser.add_argument('--rulestring', default='b3/s23',
+parser.add_argument('-r', '--rulestring', default='b3/s23',
                     help='Rulestring in B/S notation')
-parser.add_argument('--delay', type=float, default=0.05,
-                    help='Refresh delay in seconds')
-parser.add_argument('--visualization', choices=('curses', 'none'),
+parser.add_argument('-v', '--visualization', choices=('curses', 'none'),
                     default='curses', help='Visualization type')
-parser.add_argument('--theme', choices=ca_c.THEMES.keys(),
+parser.add_argument('-t', '--theme', choices=cur.THEMES.keys(),
                     default='default', help='Color theme')
+parser.add_argument('-d', '--delay', type=float, default=0,
+                    help='Refresh delay in seconds')
 args = parser.parse_args()
 
-rn.seed(args.seed)
+rand.seed(args.seed)
+
+generations = ca.generations(
+    height=args.height,
+    width=args.width,
+    population=args.population,
+    rulestring=args.rulestring
+)
 
 try:
-    if args.visualization == 'curses':
-        ca_c.run(
-            height=args.height,
-            width=args.width,
-            population=args.population,
-            rulestring=args.rulestring,
-            delay=args.delay,
-            theme=args.theme
-        )
-    else:
-        ca_t.run(
-            height=args.height,
-            width=args.width,
-            population=args.population,
-            rulestring=args.rulestring
-        )
+    module_base = 'cellular_automata.visualizations'
+    vis = il.import_module(f'{module_base}.{args.visualization}')
+    vis.run(generations, args)
 except KeyboardInterrupt:
     pass

@@ -1,7 +1,7 @@
 import collections as col
 import itertools as it
 import numpy as np
-import random as rn
+import random as rand
 import re
 import scipy.signal as sp
 import time as t
@@ -31,7 +31,7 @@ def _first_generation(height, width, population):
     grid = np.full((height, width), DEAD_CELL, CELL_TYPE)
     pop = int(height * width * (population / 100))
     cells = tuple(it.product(range(height), range(width)))
-    for x, y in rn.sample(cells, pop):
+    for x, y in rand.sample(cells, pop):
         grid[x, y] = LIVE_CELL
     return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
