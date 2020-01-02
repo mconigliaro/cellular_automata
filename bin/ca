@@ -2,18 +2,23 @@
 
 import argparse as ap
 import cellular_automata as ca
-import importlib as il
 import cellular_automata.visualizations.curses as cur
+import importlib as il
+import shutil as sh
 import random as rand
 
+
+columns, lines = sh.get_terminal_size(fallback=(256, 256))
 
 parser = ap.ArgumentParser(
     description="Simple cellular automata implementation")
 parser.add_argument('-s', '--seed', help='Random seed')
-parser.add_argument('-x', '--height', type=int, help='Grid height', default=100)
-parser.add_argument('-y', '--width', type=int, help='Grid width', default=100)
+parser.add_argument('-x', '--height', type=int, default=lines-1,
+                    help='Grid height')
+parser.add_argument('-y', '--width', type=int, default=columns-1,
+                    help='Grid width')
 parser.add_argument('-p', '--population', type=float, default=100/3,
-                    help='Initial population as a percentage of the grid')
+                    help='Initial population as a percentage of the game grid')
 parser.add_argument('-r', '--rulestring', default='b3/s23',
                     help='Rulestring in B/S notation')
 parser.add_argument('-v', '--visualization', choices=('curses', 'none'),

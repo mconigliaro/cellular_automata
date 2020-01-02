@@ -40,7 +40,12 @@ THEMES = {
 
 
 def run(generations, args):
-    cs.wrapper(_main, generations, args)
+    while True:
+        try:
+            cs.wrapper(_main, generations, args)
+        except cs.error as e:
+            if e != 'add_wch() returned ERR':
+                continue
 
 
 def _main(stdscr, generations, args):
@@ -58,19 +63,37 @@ def _main(stdscr, generations, args):
     cs.init_pair(2, cs.COLOR_BLACK, cs.COLOR_WHITE)
     cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
 
+    x_pos = 0
+    y_pos = 0
     for i, gen in enumerate(generations):
-        ch = stdscr.getch()
-        if ch == cs.KEY_RESIZE:
-            cs.resizeterm(*stdscr.getmaxyx())
-            stdscr.clear()
-
         height, width = gen.grid.shape
         win_height = cs.LINES - 1
         win_width = cs.COLS - 1
         visible_x = min(height, win_height)
         visible_y = min(width, win_width)
+
+        ch = stdscr.getch()
+        if ch == cs.KEY_RESIZE:
+            cs.resizeterm(*stdscr.getmaxyx())
+            stdscr.clear()
+        elif ch in (cs.KEY_DOWN, 115):
+            if x_pos + visible_x < height:
+                x_pos += 1
+        elif ch in (cs.KEY_UP, 119):
+            if x_pos > 0:
+                x_pos -= 1
+        elif ch in (cs.KEY_LEFT, 97):
+            if y_pos > 0:
+                y_pos -= 1
+        elif ch in (cs.KEY_RIGHT, 100):
+            if y_pos + visible_y < width:
+                y_pos += 1
+        elif ch == cs.KEY_HOME:
+            x_pos = 0
+            y_pos = 0
+
         for x, y in it.product(range(visible_x), range(visible_y)):
-            cell = gen.grid[x, y]
+            cell = gen.grid[x + x_pos, y + y_pos]
             char = cell_chars[cell]
             if isinstance(char, abc.Iterable):
                 char = rand.choice(char)
@@ -78,11 +101,10 @@ def _main(stdscr, generations, args):
 
         pop_pct = f'{gen.population / gen.grid.size * 100 :.1f}'
 
-        status_bar = f'Ctrl+C to quit'
-        status_bar += f' | Grid: {height}x{width} ({gen.grid.size})'
-        status_bar += f' | Rules: {rulestring}'
-        status_bar += f' | Gen: {i} ({1 / gen.time :.1f}/s)'
-        status_bar += f' | Pop: {gen.population} ({pop_pct}%)'
+        status_bar = f'Grid: {height}x{width} ({gen.grid.size}) | '
+        status_bar += f'Rules: {rulestring} | '
+        status_bar += f'Gen: {i} ({1 / gen.time :.1f}/s) | '
+        status_bar += f'Pop: {gen.population} ({pop_pct}%)'
         status_bar = status_bar.ljust(win_width, ' ')[:win_width]
         stdscr.addstr(win_height, 0, status_bar, cs.color_pair(2))
 

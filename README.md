@@ -18,4 +18,8 @@ implementation with fun visualizations for your terminal
 
 ## Run Simulation
 
+By default, the game grid will be set to the dimensions of the terminal window.
+When the game grid is bigger than the terminal window, the arrow/WASD keys can
+be used to adjust the viewport.
+
     ca [--help]
