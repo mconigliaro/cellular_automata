@@ -76,6 +76,8 @@ def _main(stdscr, generations, args):
         if ch == cs.KEY_RESIZE:
             cs.resizeterm(*stdscr.getmaxyx())
             stdscr.clear()
+            stdscr.refresh()
+            next
         elif ch in (cs.KEY_DOWN, 115):
             if x_pos + visible_x < height:
                 x_pos += 1

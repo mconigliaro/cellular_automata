@@ -14,8 +14,17 @@ def width():
 
 
 @pt.fixture
-def gen(height, width):
-    return next(ca.generations(height, width, 10, 'b3/s23'))
+def neighborhood():
+    return [
+        [1, 1, 1],
+        [1, 0, 1],
+        [1, 1, 1]
+    ]
+
+
+@pt.fixture
+def gen(height, width, neighborhood):
+    return next(ca.generations(height, width, 10, 'b3/s23', neighborhood))
 
 
 def test_generations(height, width, gen):

@@ -17,12 +17,12 @@ Generation = col.namedtuple('Generation', ['grid', 'population', 'time'],
 Rules = col.namedtuple('Rules', ['birth', 'survival'], defaults=[(), ()])
 
 
-def generations(height, width, population, rulestring):
+def generations(height, width, population, rulestring, neighborhood):
     gen = _first_generation(height, width, population)
     rules = _parse_rulestring(rulestring)
     while True:
         yield gen
-        gen = _next_generation(gen.grid, rules)
+        gen = _next_generation(gen.grid, rules, neighborhood)
 
 
 def _first_generation(height, width, population):
@@ -35,14 +35,13 @@ def _first_generation(height, width, population):
     return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
 
-def _neighbors(grid):
-    kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
-    return sp.fftconvolve(grid, kernel, 'same').round()
+def _neighbors(grid, neighborhood):
+    return sp.fftconvolve(grid, np.array(neighborhood), 'same').round()
 
 
-def _next_generation(grid, rules):
+def _next_generation(grid, rules, neighborhood):
     start_time = t.time()
-    neighbors = _neighbors(grid)
+    neighbors = _neighbors(grid, neighborhood)
     next_grid = np.full(grid.shape, DEAD_CELL, CELL_TYPE)
     population = 0
 

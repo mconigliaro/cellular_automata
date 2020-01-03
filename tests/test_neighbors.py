@@ -12,8 +12,17 @@ def grid():
     ]
 
 
-def test_neighbors(grid):
-    neighbors = ca._neighbors(grid)
+@pt.fixture
+def neighborhood():
+    return [
+        [1, 1, 1],
+        [1, 0, 1],
+        [1, 1, 1]
+    ]
+
+
+def test_neighbors(grid, neighborhood):
+    neighbors = ca._neighbors(grid, neighborhood)
     assert neighbors[0][0] == 1 + 4 + 5
     assert neighbors[0][3] == 2 + 6 + 7
     assert neighbors[1][1] == (0 + 1 + 2) + (4 + 6) + (8 + 9 + 10)
