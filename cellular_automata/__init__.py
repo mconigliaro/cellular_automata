@@ -11,8 +11,7 @@ CELL_TYPE = int
 DEAD_CELL = 0
 LIVE_CELL = 1
 
-Generation = col.namedtuple('Generation',
-                            ['grid', 'population', 'time'],
+Generation = col.namedtuple('Generation', ['grid', 'population', 'time'],
                             defaults=[0, 0])
 
 Rules = col.namedtuple('Rules', ['birth', 'survival'], defaults=[(), ()])
