@@ -6,7 +6,7 @@ The default automaton is [Conway's Game of Life](https://www.conwaylife.com/wiki
 
 By default, the grid will be set to the dimensions of the terminal window. When the grid is bigger than the terminal window, the arrow/WASD keys can be used to adjust the viewport.
 
-![](https://gitlab.com/mconigliaro/cellular_automata/raw/master/screenshots/1.png)
+![](screenshots/1.png)
 
 ## Getting Started
 
