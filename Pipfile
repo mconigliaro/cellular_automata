@@ -5,7 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "~= 4.6"
-flake8 = "~= 3.7"
+pytest-cov = "~= 2.8"
+pytest-flake8 = "~= 1.0"
 
 [packages]
 scipy = "~= 1.4"
