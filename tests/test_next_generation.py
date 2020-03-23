@@ -4,38 +4,8 @@ import pytest as pt
 
 
 @pt.fixture
-def grids():
-    return [
-        ([
-            [0, 0, 0],
-            [0, 1, 0],
-            [0, 0, 0]
-        ], [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ]),
-
-        ([
-            [1, 0, 0],
-            [0, 1, 0],
-            [0, 0, 1]
-        ], [
-            [0, 0, 0],
-            [0, 1, 0],
-            [0, 0, 0]
-        ]),
-
-        ([
-            [1, 0, 1],
-            [0, 1, 0],
-            [0, 0, 1]
-        ], [
-            [0, 1, 0],
-            [0, 1, 1],
-            [0, 0, 0]
-        ])
-    ]
+def rules():
+    return ca._parse_rulestring('b3/s23')
 
 
 @pt.fixture
@@ -47,10 +17,40 @@ def neighborhood():
     ]
 
 
-def test_next_generation(grids, neighborhood):
-    for grid1, grid2 in grids:
-        rules = ca._parse_rulestring('b3/s23')
-        grid1 = np.array(grid1)
-        next_gen = ca._next_generation(
-            grid1, rules, neighborhood).grid.tolist()
-        assert next_gen == grid2
+@pt.mark.parametrize(
+    "grid1, grid2",
+    [
+        [np.array([
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0]
+        ]), [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]],
+
+        [np.array([
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ]), [
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0]
+        ]],
+
+        [np.array([
+            [1, 0, 1],
+            [0, 1, 0],
+            [0, 0, 1]
+        ]), [
+            [0, 1, 0],
+            [0, 1, 1],
+            [0, 0, 0]
+        ]]
+    ]
+)
+def test_next_generation(rules, neighborhood, grid1, grid2):
+    next_gen = ca._next_generation(grid1, rules, neighborhood).grid.tolist()
+    assert next_gen == grid2
