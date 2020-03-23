@@ -21,13 +21,18 @@ def neighborhood():
     ]
 
 
-def test_neighbors(grid, neighborhood):
-    neighbors = ca._neighbors(grid, neighborhood)
-    assert neighbors[0][0] == 1 + 4 + 5
-    assert neighbors[0][3] == 2 + 6 + 7
-    assert neighbors[1][1] == (0 + 1 + 2) + (4 + 6) + (8 + 9 + 10)
-    assert neighbors[1][2] == (1 + 2 + 3) + (5 + 7) + (9 + 10 + 11)
-    assert neighbors[2][1] == (4 + 5 + 6) + (8 + 10) + (12 + 13 + 14)
-    assert neighbors[2][2] == (5 + 6 + 7) + (9 + 11) + (13 + 14 + 15)
-    assert neighbors[3][0] == 8 + 9 + 13
-    assert neighbors[3][3] == 10 + 11 + 14
+@pt.mark.parametrize(
+    "x, y, count",
+    [
+        [0, 0, 1 + 4 + 5],
+        [0, 3, 2 + 6 + 7],
+        [1, 1, (0 + 1 + 2) + (4 + 6) + (8 + 9 + 10)],
+        [1, 2, (1 + 2 + 3) + (5 + 7) + (9 + 10 + 11)],
+        [2, 1, (4 + 5 + 6) + (8 + 10) + (12 + 13 + 14)],
+        [2, 2, (5 + 6 + 7) + (9 + 11) + (13 + 14 + 15)],
+        [3, 0, 8 + 9 + 13],
+        [3, 3, 10 + 11 + 14]
+    ]
+)
+def test_neighbors(grid, neighborhood, x, y, count):
+    assert ca._neighbors(grid, neighborhood)[x][y] == count
