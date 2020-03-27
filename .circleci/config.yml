@@ -11,7 +11,7 @@ jobs:
           command: pip install pipenv
       - run:
           name: Install dependencies
-          command: pipenv install
+          command: pipenv install --dev
       - run:
           name: Run pytest
           command: pipenv run pytest --junitxml=junit.xml
