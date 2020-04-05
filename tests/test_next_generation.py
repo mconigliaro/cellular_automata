@@ -1,11 +1,12 @@
 import cellular_automata as ca
+import cellular_automata.util as util
 import numpy as np
 import pytest as pt
 
 
 @pt.fixture
 def rules():
-    return ca._parse_rulestring('b3/s23')
+    return util.parse_rulestring('b3/s23')
 
 
 @pt.fixture

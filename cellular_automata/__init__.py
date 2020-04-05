@@ -1,31 +1,34 @@
-import collections as col
+import cellular_automata.util as util
 import itertools as it
 import numpy as np
 import random as rand
-import re
 import scipy.signal as sp
 import time as t
+import typing as ty
 
 
 CELL_TYPE = int
 DEAD_CELL = 0
 LIVE_CELL = 1
 
-Generation = col.namedtuple('Generation', ['grid', 'population', 'time'],
-                            defaults=[0, 0])
 
-Rules = col.namedtuple('Rules', ['birth', 'survival'], defaults=[(), ()])
+class Generation(ty.NamedTuple):
+    grid: list
+    population: float = 0
+    time: float = 0
 
 
-def generations(height, width, population, rulestring, neighborhood):
-    gen = _first_generation(height, width, population)
-    rules = _parse_rulestring(rulestring)
+def generations(height, width, population, rulestring, neighborhood,
+                random_seed=None):
+    gen = _first_generation(height, width, population, random_seed)
+    rules = util.parse_rulestring(rulestring)
     while True:
         yield gen
         gen = _next_generation(gen.grid, rules, neighborhood)
 
 
-def _first_generation(height, width, population):
+def _first_generation(height, width, population, random_seed=None):
+    rand.seed(random_seed)
     start_time = t.time()
     grid = np.full((height, width), DEAD_CELL, CELL_TYPE)
     pop = int(height * width * (population / 100))
@@ -57,14 +60,3 @@ def _next_generation(grid, rules, neighborhood):
 
     return Generation(grid=next_grid, population=population,
                       time=t.time()-start_time)
-
-
-def _parse_rulestring(rulestring):
-    match = re.match(r'b(\d*)\/s(\d*)', rulestring, re.IGNORECASE)
-    if match:
-        birth = tuple(int(x) for x in match[1])
-        survival = tuple(int(x) for x in match[2])
-    else:
-        birth = tuple()
-        survival = tuple()
-    return Rules(birth=birth, survival=survival)

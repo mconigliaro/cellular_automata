@@ -103,8 +103,10 @@ def _main(stdscr, generations, args):
 
         pop_pct = f'{gen.population / gen.grid.size * 100 :.1f}'
 
-        status_bar = f'Grid: {height}x{width} ({gen.grid.size}) | '
-        status_bar += f'Rules: {rulestring} | '
+        status_bar = f'Ctrl+C to quit | '
+        status_bar += f'Grid: {height}x{width} | '
+        status_bar += f'Pos: {x_pos},{y_pos} | '
+        status_bar += f'RS: {rulestring} | '
         status_bar += f'Gen: {i} ({1 / gen.time :.1f}/s) | '
         status_bar += f'Pop: {gen.population} ({pop_pct}%)'
         status_bar = status_bar.ljust(win_width, ' ')[:win_width]
