@@ -39,7 +39,7 @@ def _first_generation(height, width, population, random_seed=None):
 
 
 def _neighbors(grid, neighborhood):
-    return sp.fftconvolve(grid, np.array(neighborhood), 'same').round()
+    return sp.convolve(grid, np.array(neighborhood), 'same').round()
 
 
 def _next_generation(grid, rules, neighborhood):
