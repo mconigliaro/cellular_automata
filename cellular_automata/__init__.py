@@ -28,18 +28,19 @@ def generations(height, width, population, rulestring, neighborhood,
 
 
 def _first_generation(height, width, population, random_seed=None):
-    rand.seed(random_seed)
     start_time = t.time()
     grid = np.full((height, width), DEAD_CELL, CELL_TYPE)
     pop = int(height * width * (population / 100))
     cells = tuple(it.product(range(height), range(width)))
+    rand.seed(random_seed)
     for x, y in rand.sample(cells, pop):
         grid[x, y] = LIVE_CELL
     return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
 
 def _neighbors(grid, neighborhood):
-    return sp.convolve(grid, np.array(neighborhood), 'same').round()
+    return sp.convolve2d(grid, np.array(neighborhood), mode='same',
+                         boundary='wrap', fillvalue=DEAD_CELL).round()
 
 
 def _next_generation(grid, rules, neighborhood):
