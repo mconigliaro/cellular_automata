@@ -8,7 +8,7 @@ import importlib as il
 opts = options.parse()
 
 gens = ca.generations(opts.height, opts.width, opts.population,
-                      opts.rulestring, eval(opts.neighborhood, {}), opts.seed)
+                      opts.rulestring, opts.seed)
 
 module_base = 'cellular_automata.visualizations'
 vis = il.import_module(f'{module_base}.{opts.visualization}')

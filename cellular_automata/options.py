@@ -44,12 +44,6 @@ def parse(args=None):
         help='Rulestring in B/S or S/B notation'
     )
     parser.add_argument(
-        '-n',
-        '--neighborhood',
-        default='[[1, 1, 1], [1, 0, 1], [1, 1, 1]]',
-        help='Bitmask to determine neighbors of each cell'
-    )
-    parser.add_argument(
         '-v',
         '--visualization',
         choices=util.list_visualizations(),

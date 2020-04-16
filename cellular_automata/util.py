@@ -17,12 +17,12 @@ def list_visualizations():
 
 
 def parse_rulestring(rulestring):
-    bs_match = re.match(r'b(\d*)\/s(\d*)', rulestring, re.IGNORECASE)
+    bs_match = re.match(r'b([0-8]+)\/s([0-8]+)', rulestring, re.IGNORECASE)
     if bs_match:
         return Rules(birth=tuple(int(x) for x in bs_match[1]),
                      survival=tuple(int(x) for x in bs_match[2]))
 
-    sb_match = re.match(r'(\d*)\/(\d*)', rulestring, re.IGNORECASE)
+    sb_match = re.match(r'([0-8]+)\/([0-8]+)', rulestring, re.IGNORECASE)
     if sb_match:
         return Rules(survival=tuple(int(x) for x in sb_match[1]),
                      birth=tuple(int(x) for x in sb_match[2]))

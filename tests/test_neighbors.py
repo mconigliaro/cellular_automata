@@ -13,15 +13,6 @@ def grid():
     ]
 
 
-@pt.fixture
-def neighborhood():
-    return [
-        [1, 1, 1],
-        [1, 0, 1],
-        [1, 1, 1]
-    ]
-
-
 @pt.mark.parametrize(
     "x, y, count",
     [
@@ -36,5 +27,5 @@ def neighborhood():
         [3, 3, (5 + 6) + 8]
     ]
 )
-def test_neighbors(grid, neighborhood, x, y, count):
-    assert ca.neighbors(grid, neighborhood)[x][y] == count
+def test_neighbors(grid, x, y, count):
+    assert ca.neighbors(grid)[x][y] == count

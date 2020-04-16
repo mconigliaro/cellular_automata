@@ -10,17 +10,8 @@ def test_list_visualizations():
 @pt.mark.parametrize(
     "rulestring, rules",
     [
-        # B/S
         ["b01/s23", util.Rules(birth=(0, 1), survival=(2, 3))],
-        ["b01/s", util.Rules(birth=(0, 1))],
-        ["b/s01", util.Rules(survival=(0, 1))],
-        ["b/s", util.Rules()],
-
-        # S/B
-        ["23/01", util.Rules(survival=(2, 3), birth=(0, 1))],
-        ["01/", util.Rules(survival=(0, 1))],
-        ["/01", util.Rules(birth=(0, 1))],
-        ["/", util.Rules()],
+        ["23/01", util.Rules(survival=(2, 3), birth=(0, 1))]
     ]
 )
 def test_parse_rulestring(rulestring, rules):
@@ -30,10 +21,13 @@ def test_parse_rulestring(rulestring, rules):
 @pt.mark.parametrize(
     "rulestring",
     [
-        "invalid",
+        "b/s",
+        "b9/",
+        "/s9",
+        "/",
         ""
     ]
 )
 def test_parse_invalid_rulestring(rulestring):
     with pt.raises(exc.RulestringParseError):
-        util.parse_rulestring(rulestring)
+        print(util.parse_rulestring(rulestring))

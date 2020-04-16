@@ -9,15 +9,6 @@ def rules():
     return util.parse_rulestring('b3/s23')
 
 
-@pt.fixture
-def neighborhood():
-    return [
-        [1, 1, 1],
-        [1, 0, 1],
-        [1, 1, 1]
-    ]
-
-
 @pt.mark.parametrize(
     "grid1, grid2",
     [
@@ -99,6 +90,6 @@ def neighborhood():
         ]]
     ]
 )
-def test_next_generation(rules, neighborhood, grid1, grid2):
-    next_gen = ca.next_generation(grid1, rules, neighborhood).grid.tolist()
+def test_next_generation(rules, grid1, grid2):
+    next_gen = ca.next_generation(grid1, rules).grid.tolist()
     assert next_gen == grid2
