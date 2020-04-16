@@ -71,22 +71,43 @@ def _main(stdscr, generations, args):
 
         ch = stdscr.getch()
         if ch == cs.KEY_RESIZE:
+            x_pos = 0
+            y_pos = 0
             cs.resizeterm(*stdscr.getmaxyx())
             stdscr.clear()
             stdscr.refresh()
-            next
         elif ch in (cs.KEY_DOWN, 115):
             if x_pos + visible_x < height:
                 x_pos += 1
+        elif ch in (336, 83):
+            if x_pos + visible_x * 2 < height:
+                x_pos += visible_x
+            else:
+                x_pos = height - visible_x
         elif ch in (cs.KEY_UP, 119):
             if x_pos > 0:
                 x_pos -= 1
+        elif ch in (337, 87):
+            if x_pos - visible_x > 0:
+                x_pos -= visible_x
+            else:
+                x_pos = 0
         elif ch in (cs.KEY_LEFT, 97):
             if y_pos > 0:
                 y_pos -= 1
+        elif ch in (cs.KEY_SLEFT, 65):
+            if y_pos - visible_y > 0:
+                y_pos -= visible_y
+            else:
+                y_pos = 0
         elif ch in (cs.KEY_RIGHT, 100):
             if y_pos + visible_y < width:
                 y_pos += 1
+        elif ch in (cs.KEY_SRIGHT, 68):
+            if y_pos + visible_y * 2 < width:
+                y_pos += visible_y
+            else:
+                y_pos = width - visible_y
         elif ch == cs.KEY_HOME:
             x_pos = 0
             y_pos = 0
