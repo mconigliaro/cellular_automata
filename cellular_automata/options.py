@@ -41,7 +41,7 @@ def parse(args=None):
         '-r',
         '--rulestring',
         default='b3/s23',
-        help='Rulestring in B/S notation'
+        help='Rulestring in B/S or S/B notation'
     )
     parser.add_argument(
         '-n',

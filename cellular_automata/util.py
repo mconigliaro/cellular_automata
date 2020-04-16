@@ -1,3 +1,4 @@
+import cellular_automata.exceptions as exc
 import os
 import pathlib as pl
 import pkgutil as pu
@@ -16,11 +17,14 @@ def list_visualizations():
 
 
 def parse_rulestring(rulestring):
-    match = re.match(r'b(\d*)\/s(\d*)', rulestring, re.IGNORECASE)
-    if match:
-        birth = tuple(int(x) for x in match[1])
-        survival = tuple(int(x) for x in match[2])
-    else:
-        birth = tuple()
-        survival = tuple()
-    return Rules(birth=birth, survival=survival)
+    bs_match = re.match(r'b(\d*)\/s(\d*)', rulestring, re.IGNORECASE)
+    if bs_match:
+        return Rules(birth=tuple(int(x) for x in bs_match[1]),
+                     survival=tuple(int(x) for x in bs_match[2]))
+
+    sb_match = re.match(r'(\d*)\/(\d*)', rulestring, re.IGNORECASE)
+    if sb_match:
+        return Rules(survival=tuple(int(x) for x in sb_match[1]),
+                     birth=tuple(int(x) for x in sb_match[2]))
+
+    raise exc.RulestringParseError(f"Unable to parse rulestring: {rulestring}")

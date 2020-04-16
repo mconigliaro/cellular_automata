@@ -37,4 +37,4 @@ def neighborhood():
     ]
 )
 def test_neighbors(grid, neighborhood, x, y, count):
-    assert ca._neighbors(grid, neighborhood)[x][y] == count
+    assert ca.neighbors(grid, neighborhood)[x][y] == count

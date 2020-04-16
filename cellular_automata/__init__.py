@@ -20,14 +20,14 @@ class Generation(ty.NamedTuple):
 
 def generations(height, width, population, rulestring, neighborhood,
                 random_seed=None):
-    gen = _first_generation(height, width, population, random_seed)
+    gen = first_generation(height, width, population, random_seed)
     rules = util.parse_rulestring(rulestring)
     while True:
         yield gen
-        gen = _next_generation(gen.grid, rules, neighborhood)
+        gen = next_generation(gen.grid, rules, neighborhood)
 
 
-def _first_generation(height, width, population, random_seed=None):
+def first_generation(height, width, population, random_seed=None):
     start_time = t.time()
     grid = np.full((height, width), DEAD_CELL, CELL_TYPE)
     pop = int(height * width * (population / 100))
@@ -38,24 +38,24 @@ def _first_generation(height, width, population, random_seed=None):
     return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
 
-def _neighbors(grid, neighborhood):
+def neighbors(grid, neighborhood):
     return sp.convolve2d(grid, np.array(neighborhood), mode='same',
                          boundary='wrap', fillvalue=DEAD_CELL).round()
 
 
-def _next_generation(grid, rules, neighborhood):
+def next_generation(grid, rules, neighborhood):
     start_time = t.time()
-    neighbors = _neighbors(grid, neighborhood)
+    neighbor_grid = neighbors(grid, neighborhood)
     next_grid = np.full(grid.shape, DEAD_CELL, CELL_TYPE)
     population = 0
 
     for n in rules.birth:
-        w = np.where((grid == DEAD_CELL) & (neighbors == n))
+        w = np.where((grid == DEAD_CELL) & (neighbor_grid == n))
         next_grid[w] = LIVE_CELL
         population += len(w[0])
 
     for n in rules.survival:
-        w = np.where((grid == LIVE_CELL) & (neighbors == n))
+        w = np.where((grid == LIVE_CELL) & (neighbor_grid == n))
         next_grid[w] = LIVE_CELL
         population += len(w[0])
 

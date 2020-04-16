@@ -100,5 +100,5 @@ def neighborhood():
     ]
 )
 def test_next_generation(rules, neighborhood, grid1, grid2):
-    next_gen = ca._next_generation(grid1, rules, neighborhood).grid.tolist()
+    next_gen = ca.next_generation(grid1, rules, neighborhood).grid.tolist()
     assert next_gen == grid2
