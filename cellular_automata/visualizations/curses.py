@@ -63,7 +63,7 @@ def _main(stdscr, generations, args):
     x_pos = 0
     y_pos = 0
     for i, gen in enumerate(generations):
-        height, width = gen.grid.shape
+        height, width = gen.universe.shape
         win_height = cs.LINES - 1
         win_width = cs.COLS - 1
         visible_x = min(height, win_height)
@@ -113,13 +113,13 @@ def _main(stdscr, generations, args):
             y_pos = 0
 
         for x, y in it.product(range(visible_x), range(visible_y)):
-            cell = gen.grid[x + x_pos, y + y_pos]
+            cell = gen.universe[x + x_pos, y + y_pos]
             char = cell_chars[cell]
             if isinstance(char, abc.Iterable):
                 char = rand.choice(char)
             stdscr.addch(x, y, char, cs.color_pair(1))
 
-        pop_pct = f'{gen.population / gen.grid.size * 100 :.1f}'
+        pop_pct = f'{gen.population / gen.universe.size * 100 :.1f}'
 
         status_bar = f'Ctrl+C to quit | '
         status_bar += f'Size: {height}x{width} | '

@@ -21,28 +21,28 @@ def parse(args=None):
         '--height',
         type=int,
         default=lines-1,
-        help='Grid height'
+        help='Universe height'
     )
     parser.add_argument(
         '-y',
         '--width',
         type=int,
         default=columns-1,
-        help='Grid width'
+        help='Universe width'
     )
     parser.add_argument(
         '-p',
         '--population',
         type=float,
         default=33.3,
-        help='Initial population as a percentage of the grid'
+        help='Initial population as a percentage of the universe'
     )
     parser.add_argument(
         '-t',
         '--topology',
         choices=('closed', 'wrapped'),
         default='wrapped',
-        help='Grid topology'
+        help='Universe topology'
     )
     parser.add_argument(
         '-r',

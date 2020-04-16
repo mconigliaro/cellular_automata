@@ -20,8 +20,8 @@ def gen(height, width):
 
 def test_generations(height, width, gen):
     assert isinstance(gen, ca.Generation)
-    assert len(gen.grid) == height
-    for x in gen.grid:
+    assert len(gen.universe) == height
+    for x in gen.universe:
         assert len(x) == width
         for y in x:
             assert y in (0, 1)

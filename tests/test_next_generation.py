@@ -10,7 +10,7 @@ def rules():
 
 
 @pt.mark.parametrize(
-    "grid1, grid2",
+    "universe1, universe2",
     [
         # Block
         [np.array([
@@ -90,6 +90,6 @@ def rules():
         ]]
     ]
 )
-def test_next_generation(rules, grid1, grid2):
-    next_gen = ca.next_generation(grid1, 'wrapped', rules).grid.tolist()
-    assert next_gen == grid2
+def test_next_generation(rules, universe1, universe2):
+    ng = ca.next_generation(universe1, 'wrapped', rules).universe.tolist()
+    assert ng == universe2

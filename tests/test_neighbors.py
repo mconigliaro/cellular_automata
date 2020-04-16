@@ -3,7 +3,7 @@ import pytest as pt
 
 
 @pt.fixture
-def grid():
+def universe():
     return [
         [1, 2, 3],
         [4, 5, 6],
@@ -25,5 +25,5 @@ def grid():
         [2, 2, (5 + 6) + 8]
     ]
 )
-def test_neighbors(grid, x, y, count):
-    assert ca.neighbors(grid, 'closed')[x][y] == count
+def test_neighbors(universe, x, y, count):
+    assert ca.neighbors(universe, 'closed')[x][y] == count
