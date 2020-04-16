@@ -25,5 +25,5 @@ def universe():
         [2, 2, (5 + 6) + 8]
     ]
 )
-def test_neighbors(universe, x, y, count):
-    assert ca.neighbors(universe, 'closed')[x][y] == count
+def test_count_neighbors(universe, x, y, count):
+    assert ca.count_neighbors(universe, 'closed')[x][y] == count
