@@ -38,6 +38,13 @@ def parse(args=None):
         help='Initial population as a percentage of the grid'
     )
     parser.add_argument(
+        '-t',
+        '--topology',
+        choices=('closed', 'wrapped'),
+        default='wrapped',
+        help='Grid topology'
+    )
+    parser.add_argument(
         '-r',
         '--rulestring',
         default='b3/s23',
@@ -51,7 +58,6 @@ def parse(args=None):
         help='Visualization type'
     )
     parser.add_argument(
-        '-t',
         '--theme',
         choices=cur.THEMES.keys(),
         default='default',

@@ -18,12 +18,13 @@ class Generation(ty.NamedTuple):
     time: float = 0
 
 
-def generations(height, width, population, rulestring, random_seed=None):
+def generations(height, width, population, topology, rulestring,
+                random_seed=None):
     gen = first_generation(height, width, population, random_seed)
     rules = util.parse_rulestring(rulestring)
     while True:
         yield gen
-        gen = next_generation(gen.grid, rules)
+        gen = next_generation(gen.grid, topology, rules)
 
 
 def first_generation(height, width, population, random_seed=None):
@@ -37,15 +38,19 @@ def first_generation(height, width, population, random_seed=None):
     return Generation(grid=grid, population=pop, time=t.time()-start_time)
 
 
-def neighbors(grid):
-    neighborhood = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
-    return sp.convolve2d(grid, np.array(neighborhood), mode='same',
-                         boundary='wrap', fillvalue=DEAD_CELL).round()
+def neighbors(grid, topology):
+    neighborhood = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
+    boundary = {
+        "closed": "fill",
+        "wrapped": "wrap"
+    }[topology]
+    return sp.convolve2d(grid, neighborhood, mode='same', boundary=boundary,
+                         fillvalue=DEAD_CELL)
 
 
-def next_generation(grid, rules):
+def next_generation(grid, topology, rules):
     start_time = t.time()
-    neighbor_grid = neighbors(grid)
+    neighbor_grid = neighbors(grid, topology)
     next_grid = np.full(grid.shape, DEAD_CELL, CELL_TYPE)
     population = 0
 

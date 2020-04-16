@@ -49,15 +49,12 @@ def run(generations, args):
 
 
 def _main(stdscr, generations, args):
-    rulestring = args.rulestring
-    theme = args.theme
-    delay = args.delay
-
     cs.curs_set(0)
     stdscr.timeout(0)
 
     stdscr.clear()
 
+    theme = args.theme
     cs.start_color()
     cs.init_pair(1, THEMES[theme]['fg_color'], THEMES[theme]['bg_color'])
     cs.init_pair(2, cs.COLOR_BLACK, cs.COLOR_WHITE)
@@ -104,13 +101,14 @@ def _main(stdscr, generations, args):
         pop_pct = f'{gen.population / gen.grid.size * 100 :.1f}'
 
         status_bar = f'Ctrl+C to quit | '
-        status_bar += f'Grid: {height}x{width} | '
-        status_bar += f'Pos: {x_pos},{y_pos} | '
-        status_bar += f'RS: {rulestring} | '
-        status_bar += f'Gen: {i} ({1 / gen.time :.1f}/s) | '
-        status_bar += f'Pop: {gen.population} ({pop_pct}%)'
+        status_bar += f'Size: {height}x{width} | '
+        status_bar += f'Position: {x_pos},{y_pos} | '
+        status_bar += f'Topology: {args.topology.capitalize()} | '
+        status_bar += f'Rules: {args.rulestring} | '
+        status_bar += f'Generation: {i} ({1 / gen.time :.1f}/s) | '
+        status_bar += f'Population: {gen.population} ({pop_pct}%)'
         status_bar = status_bar.ljust(win_width, ' ')[:win_width]
         stdscr.addstr(win_height, 0, status_bar, cs.color_pair(2))
 
         stdscr.refresh()
-        t.sleep(delay)
+        t.sleep(args.delay)

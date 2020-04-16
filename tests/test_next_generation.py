@@ -91,5 +91,5 @@ def rules():
     ]
 )
 def test_next_generation(rules, grid1, grid2):
-    next_gen = ca.next_generation(grid1, rules).grid.tolist()
+    next_gen = ca.next_generation(grid1, 'wrapped', rules).grid.tolist()
     assert next_gen == grid2
