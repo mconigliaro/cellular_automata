@@ -38,6 +38,15 @@ THEMES = {
     }
 }
 
+KEYS_DOWN = (cs.KEY_DOWN, ord('s'))
+KEYS_SDOWN = (336, ord('S'))
+KEYS_UP = (cs.KEY_UP, ord('w'))
+KEYS_SUP = (337, ord('W'))
+KEYS_LEFT = (cs.KEY_LEFT, ord('a'))
+KEYS_SLEFT = (cs.KEY_SLEFT, ord('A'))
+KEYS_RIGHT = (cs.KEY_RIGHT, ord('d'))
+KEYS_SRIGHT = (cs.KEY_SRIGHT, ord('D'))
+
 
 def run(generations, args):
     while True:
@@ -76,34 +85,34 @@ def _main(stdscr, generations, args):
             cs.resizeterm(*stdscr.getmaxyx())
             stdscr.clear()
             stdscr.refresh()
-        elif ch in (cs.KEY_DOWN, 115):
+        elif ch in KEYS_DOWN:
             if x_pos + visible_x < height:
                 x_pos += 1
-        elif ch in (336, 83):
+        elif ch in KEYS_SDOWN:
             if x_pos + visible_x * 2 < height:
                 x_pos += visible_x
             else:
                 x_pos = height - visible_x
-        elif ch in (cs.KEY_UP, 119):
+        elif ch in KEYS_UP:
             if x_pos > 0:
                 x_pos -= 1
-        elif ch in (337, 87):
+        elif ch in KEYS_SUP:
             if x_pos - visible_x > 0:
                 x_pos -= visible_x
             else:
                 x_pos = 0
-        elif ch in (cs.KEY_LEFT, 97):
+        elif ch in KEYS_LEFT:
             if y_pos > 0:
                 y_pos -= 1
-        elif ch in (cs.KEY_SLEFT, 65):
+        elif ch in KEYS_SLEFT:
             if y_pos - visible_y > 0:
                 y_pos -= visible_y
             else:
                 y_pos = 0
-        elif ch in (cs.KEY_RIGHT, 100):
+        elif ch in KEYS_RIGHT:
             if y_pos + visible_y < width:
                 y_pos += 1
-        elif ch in (cs.KEY_SRIGHT, 68):
+        elif ch in KEYS_SRIGHT:
             if y_pos + visible_y * 2 < width:
                 y_pos += visible_y
             else:
