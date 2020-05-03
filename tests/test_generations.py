@@ -24,4 +24,4 @@ def test_generations(height, width, gen):
     for x in gen.universe:
         assert len(x) == width
         for y in x:
-            assert y in (0, 1)
+            assert y in (ca.DEAD_CELL, ca.LIVE_CELL)

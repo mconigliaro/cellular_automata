@@ -10,86 +10,87 @@ def rules():
 
 
 @pt.mark.parametrize(
-    "universe1, universe2",
+    "universe1, universe2, population",
     [
         # Block
-        [np.array([
+        [[
             [0, 0, 0, 0],
             [0, 1, 1, 0],
             [0, 1, 1, 0],
             [0, 0, 0, 0]
-        ]), [
+        ], [
             [0, 0, 0, 0],
             [0, 1, 1, 0],
             [0, 1, 1, 0],
             [0, 0, 0, 0]
-        ]],
+        ], 4],
 
         # Tub
-        [np.array([
+        [[
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 0, 0, 0]
-        ]), [
+        ], [
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 1, 0, 1, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 0, 0, 0]
-        ]],
+        ], 4],
 
         # Blinker
-        [np.array([
+        [[
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 0, 0, 0]
-        ]), [
+        ], [
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]
-        ]],
+        ], 3],
 
         # Toad
-        [np.array([
+        [[
             [0, 0, 0, 0, 0, 0],
             [0, 0, 0, 1, 0, 0],
             [0, 1, 0, 0, 1, 0],
             [0, 1, 0, 0, 1, 0],
             [0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0]
-        ]), [
+        ], [
             [0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0],
             [0, 0, 1, 1, 1, 0],
             [0, 1, 1, 1, 0, 0],
             [0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0]
-        ]],
+        ], 6],
 
         # Beacon
-        [np.array([
+        [[
             [0, 0, 0, 0, 0, 0],
             [0, 1, 1, 0, 0, 0],
             [0, 1, 1, 0, 0, 0],
             [0, 0, 0, 1, 1, 0],
             [0, 0, 0, 1, 1, 0],
             [0, 0, 0, 0, 0, 0]
-        ]), [
+        ], [
             [0, 0, 0, 0, 0, 0],
             [0, 1, 1, 0, 0, 0],
             [0, 1, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0],
             [0, 0, 0, 1, 1, 0],
             [0, 0, 0, 0, 0, 0]
-        ]]
+        ], 6]
     ]
 )
-def test_next_generation(rules, universe1, universe2):
-    ng = ca.next_generation(universe1, 'wrapped', rules).universe.tolist()
-    assert ng == universe2
+def test_next_generation(rules, universe1, universe2, population):
+    ng = ca.next_generation(np.array(universe1), 'wrapped', rules)
+    assert ng.universe.tolist() == universe2
+    assert ng.population == population
