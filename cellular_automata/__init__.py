@@ -61,5 +61,5 @@ def next_generation(universe, topology, rules):
     )] = LIVE_CELL
 
     return Generation(universe=next_universe,
-                      population=len(next_universe.nonzero()),
+                      population=np.count_nonzero(next_universe),
                       time=t.time()-start_time)
