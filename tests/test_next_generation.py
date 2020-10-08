@@ -1,15 +1,15 @@
+import numpy
+import pytest
+
 import cellular_automata as ca
-import cellular_automata.util as util
-import numpy as np
-import pytest as pt
 
 
-@pt.fixture
+@pytest.fixture
 def rules():
-    return util.parse_rulestring('b3/s23')
+    return ca.parse_rulestring('b3/s23')
 
 
-@pt.mark.parametrize(
+@pytest.mark.parametrize(
     "universe1, universe2, population",
     [
         # Block
@@ -91,6 +91,6 @@ def rules():
     ]
 )
 def test_next_generation(rules, universe1, universe2, population):
-    ng = ca.next_generation(np.array(universe1), 'wrapped', rules)
+    ng = ca.next_generation(numpy.array(universe1), 'wrapped', rules)
     assert ng.universe.tolist() == universe2
     assert ng.population == population

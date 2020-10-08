@@ -1,8 +1,9 @@
+import pytest
+
 import cellular_automata as ca
-import pytest as pt
 
 
-@pt.fixture
+@pytest.fixture
 def universe():
     return [
         [1, 2, 3],
@@ -11,7 +12,7 @@ def universe():
     ]
 
 
-@pt.mark.parametrize(
+@pytest.mark.parametrize(
     "x, y, count",
     [
         [0, 0, 2 + 4 + 5],

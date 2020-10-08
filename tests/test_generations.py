@@ -1,19 +1,20 @@
+import pytest
+import random
+
 import cellular_automata as ca
-import pytest as pt
-import random as rand
 
 
-@pt.fixture
+@pytest.fixture
 def height():
-    return rand.randint(3, 15)
+    return random.randint(3, 15)
 
 
-@pt.fixture
+@pytest.fixture
 def width():
-    return rand.randint(3, 15)
+    return random.randint(3, 15)
 
 
-@pt.fixture
+@pytest.fixture
 def gen(height, width):
     return next(ca.generations(height, width, 10, 'wrapped', 'b3/s23'))
 

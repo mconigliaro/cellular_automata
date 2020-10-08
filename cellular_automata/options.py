@@ -1,15 +1,23 @@
-import argparse as ap
-import cellular_automata.util as util
-import cellular_automata.visualizations.curses as cur
-import shutil as sh
+import argparse
+import shutil
+import os
+import pathlib
+import pkgutil
+
+import cellular_automata.visualizations.curses as curses
+
+
+def list_visualizations():
+    path = os.path.join(pathlib.Path(__file__).parent, "visualizations")
+    return [m.name for m in pkgutil.iter_modules([path])]
 
 
 def parse(args=None):
-    columns, lines = sh.get_terminal_size(fallback=(256, 256))
+    columns, lines = shutil.get_terminal_size(fallback=(256, 256))
 
-    parser = ap.ArgumentParser(
+    parser = argparse.ArgumentParser(
         description="Simple 2D cellular automata implementation",
-        formatter_class=ap.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument(
         '-s',
@@ -53,13 +61,13 @@ def parse(args=None):
     parser.add_argument(
         '-v',
         '--visualization',
-        choices=util.list_visualizations(),
+        choices=list_visualizations(),
         default='curses',
         help='Visualization type'
     )
     parser.add_argument(
         '--theme',
-        choices=cur.THEMES.keys(),
+        choices=curses.THEMES.keys(),
         default='default',
         help='Curses theme'
     )
