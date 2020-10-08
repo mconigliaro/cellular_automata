@@ -130,7 +130,7 @@ def _main(stdscr, generations, args):
 
         pop_pct = f'{gen.population / gen.universe.size * 100 :.1f}'
 
-        status_bar = f'Ctrl+C to quit | '
+        status_bar = 'Ctrl+C to quit | '
         status_bar += f'Size: {height}x{width} | '
         status_bar += f'Position: {x_pos},{y_pos} | '
         status_bar += f'Topology: {args.topology.capitalize()} | '
