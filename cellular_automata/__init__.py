@@ -34,7 +34,7 @@ def parse_rulestring(rulestring):
         return Rules(survival=tuple(int(x) for x in sb_match[1]),
                      birth=tuple(int(x) for x in sb_match[2]))
 
-    raise RulestringParseError(f"Unable to parse rulestring: {rulestring}")
+    raise ValueError(f"Unable to parse rulestring: {rulestring}")
 
 
 def generations(height, width, population, topology, rulestring,
@@ -82,11 +82,3 @@ def next_generation(universe, topology, rules):
     return Generation(universe=next_universe,
                       population=numpy.count_nonzero(next_universe),
                       time=t.time()-start_time)
-
-
-class CellularAutomataError(Exception):
-    pass
-
-
-class RulestringParseError(CellularAutomataError):
-    pass

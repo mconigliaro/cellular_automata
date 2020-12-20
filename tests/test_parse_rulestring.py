@@ -25,5 +25,5 @@ def test_parse_rulestring(rulestring, rules):
     ]
 )
 def test_parse_invalid_rulestring(rulestring):
-    with pytest.raises(ca.RulestringParseError):
+    with pytest.raises(ValueError):
         ca.parse_rulestring(rulestring)
