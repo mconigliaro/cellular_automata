@@ -39,13 +39,17 @@ THEMES = {
 }
 
 KEYS_DOWN = (curses.KEY_DOWN, ord('s'))
-KEYS_SDOWN = (336, ord('S'))
 KEYS_UP = (curses.KEY_UP, ord('w'))
-KEYS_SUP = (337, ord('W'))
 KEYS_LEFT = (curses.KEY_LEFT, ord('a'))
-KEYS_SLEFT = (curses.KEY_SLEFT, ord('A'))
 KEYS_RIGHT = (curses.KEY_RIGHT, ord('d'))
-KEYS_SRIGHT = (curses.KEY_SRIGHT, ord('D'))
+KEYS_PAGE_DOWN = (336, ord('S'))
+KEYS_PAGE_UP = (337, ord('W'))
+KEYS_PAGE_LEFT = (curses.KEY_SLEFT, ord('A'))
+KEYS_PAGE_RIGHT = (curses.KEY_SRIGHT, ord('D'))
+KEYS_SPEED_DOWN = (ord("-"))
+KEYS_SPEED_UP = (ord("+"))
+
+SPEED_INCREMENT = 0.01
 
 
 def run(generations, args):
@@ -68,6 +72,7 @@ def _main(stdscr, generations, args):
     curses.init_pair(1, THEMES[theme]['fg_color'], THEMES[theme]['bg_color'])
     curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
     cell_chars = (THEMES[theme]['dead_cell'], THEMES[theme]['live_cell'])
+    delay = args.delay
 
     x_pos = 0
     y_pos = 0
@@ -88,7 +93,7 @@ def _main(stdscr, generations, args):
         elif ch in KEYS_DOWN:
             if x_pos + visible_x < height:
                 x_pos += 1
-        elif ch in KEYS_SDOWN:
+        elif ch in KEYS_PAGE_DOWN:
             if x_pos + visible_x * 2 < height:
                 x_pos += visible_x
             else:
@@ -96,7 +101,7 @@ def _main(stdscr, generations, args):
         elif ch in KEYS_UP:
             if x_pos > 0:
                 x_pos -= 1
-        elif ch in KEYS_SUP:
+        elif ch in KEYS_PAGE_UP:
             if x_pos - visible_x > 0:
                 x_pos -= visible_x
             else:
@@ -104,7 +109,7 @@ def _main(stdscr, generations, args):
         elif ch in KEYS_LEFT:
             if y_pos > 0:
                 y_pos -= 1
-        elif ch in KEYS_SLEFT:
+        elif ch in KEYS_PAGE_LEFT:
             if y_pos - visible_y > 0:
                 y_pos -= visible_y
             else:
@@ -112,7 +117,7 @@ def _main(stdscr, generations, args):
         elif ch in KEYS_RIGHT:
             if y_pos + visible_y < width:
                 y_pos += 1
-        elif ch in KEYS_SRIGHT:
+        elif ch in KEYS_PAGE_RIGHT:
             if y_pos + visible_y * 2 < width:
                 y_pos += visible_y
             else:
@@ -120,6 +125,11 @@ def _main(stdscr, generations, args):
         elif ch == curses.KEY_HOME:
             x_pos = 0
             y_pos = 0
+        elif ch == KEYS_SPEED_DOWN:
+            delay = delay + SPEED_INCREMENT if delay == 0 else delay * 2
+        elif ch == KEYS_SPEED_UP:
+            tmp_delay = delay / 2
+            delay = tmp_delay if tmp_delay > SPEED_INCREMENT else 0
 
         for x, y in itertools.product(range(visible_x), range(visible_y)):
             cell = gen.universe[x + x_pos, y + y_pos]
@@ -132,13 +142,14 @@ def _main(stdscr, generations, args):
 
         status_bar = 'Ctrl+C to quit | '
         status_bar += f'Size: {height}x{width} | '
-        status_bar += f'Position: {x_pos},{y_pos} | '
-        status_bar += f'Topology: {args.topology.capitalize()} | '
+        status_bar += f'Pos: {x_pos},{y_pos} | '
+        status_bar += f'Top: {args.topology.capitalize()} | '
         status_bar += f'Rules: {args.rulestring} | '
-        status_bar += f'Generation: {i} ({1 / gen.time :.1f}/s) | '
-        status_bar += f'Population: {gen.population} ({pop_pct}%)'
+        status_bar += f'Gen: {i} ({1 / gen.time :.1f}/s) | '
+        status_bar += f'Pop: {gen.population} ({pop_pct}%) | '
+        status_bar += f'Delay: {delay :.2f}s'
         status_bar = status_bar.ljust(win_width, ' ')[:win_width]
         stdscr.addstr(win_height, 0, status_bar, curses.color_pair(2))
 
         stdscr.refresh()
-        time.sleep(args.delay)
+        time.sleep(delay)
