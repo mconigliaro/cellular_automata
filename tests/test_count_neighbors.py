@@ -23,8 +23,8 @@ def universe():
         [1, 2, (2 + 3) + 5 + (8 + 9)],
         [2, 0, (4 + 5) + 8],
         [2, 1, (4 + 5 + 6) + (7 + 9)],
-        [2, 2, (5 + 6) + 8]
-    ]
+        [2, 2, (5 + 6) + 8],
+    ],
 )
 def test_count_neighbors(universe, x, y, count):
-    assert ca.count_neighbors(universe, 'closed')[x][y] == count
+    assert ca.count_neighbors(universe, "closed")[x][y] == count

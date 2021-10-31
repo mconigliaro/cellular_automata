@@ -16,9 +16,8 @@ Simple 2D [cellular automata](https://www.conwaylife.com/wiki/Cellular_automaton
 
 ## Getting Started
 
-    pip install pipenv
-    pipenv install --dev
-    pipenv shell
+    poetry install
+    poetry shell
     ...
 
 ## Run Tests

@@ -16,7 +16,7 @@ def width():
 
 @pytest.fixture
 def gen(height, width):
-    return next(ca.generations(height, width, 10, 'wrapped', 'b3/s23'))
+    return next(ca.generations(height, width, 10, "wrapped", "b3/s23"))
 
 
 def test_generations(height, width, gen):
