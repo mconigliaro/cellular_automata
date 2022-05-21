@@ -1,6 +1,6 @@
 # Cellular Automata
 
-[![cellular_automata](https://circleci.com/gh/mconigliaro/cellular_automata.svg?style=svg)](https://circleci.com/gh/mconigliaro/cellular_automata)
+[![Continuous Integration](https://github.com/mconigliaro/cellular_automata/actions/workflows/ci.yml/badge.svg)](https://github.com/mconigliaro/cellular_automata/actions/workflows/ci.yml)
 
 Simple 2D [cellular automata](https://www.conwaylife.com/wiki/Cellular_automaton) implementation with fun visualizations for your terminal
 

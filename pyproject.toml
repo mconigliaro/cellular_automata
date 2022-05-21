@@ -9,13 +9,13 @@ description = ""
 authors = ["Mike Conigliaro <mike@conigliaro.org>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-scipy = "^1.6"
+python = ">=3.10,<3.11"
+scipy = "^1.8"
 
 [tool.poetry.dev-dependencies]
-pytest = "^4.6"
-pytest-cov = "^2.8"
-pytest-flake8 = "^1.0"
+black = { version = "^22.3.0", allow-prereleases = true }
+pytest = "^7.1"
+pytest-cov = "^3.0"
 
 [tool.poetry.scripts]
 ca = "cellular_automata.cli:main"
@@ -23,3 +23,6 @@ ca = "cellular_automata.cli:main"
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+
+[tool.pytest.ini_options]
+addopts = "--cov cellular_automata -ra"
